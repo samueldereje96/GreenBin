@@ -22,7 +22,7 @@
 
 1.  **Clone the repository**:
     ```bash
-    git clone https://github.com/yourusername/greenbin.git
+    git clone https://github.com/samueldereje96/greenbin.git
     cd greenbin
     ```
 
