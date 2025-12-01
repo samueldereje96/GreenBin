@@ -34,7 +34,7 @@
 
 3.  **Install dependencies**:
     ```bash
-    pip install streamlit pandas plotly
+    pip install -r requirements.txt
     ```
 
 ## Usage
