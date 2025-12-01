@@ -1,0 +1,55 @@
+/* Style sidebar background */
+section[data-testid="stSidebar"] {
+    background-color: #FFFFFF;
+    border-right: 1px solid #E5E7EB;
+}
+
+/* Style sidebar buttons */
+/* Inactive buttons (secondary) */
+section[data-testid="stSidebar"] button[kind="secondary"] {
+    background-color: transparent !important;
+    color: #000000 !important;
+    border: none !important;
+    text-align: left !important;
+    font-size: 50px !important; /* Increased font size */
+    padding-left: 20px !important;
+    justify-content: flex-start !important;
+    border: 1px solid #E5E7EB !important;
+    border-radius: 15px !important; /* Curved borders */
+    margin-bottom: 5px !important;
+}
+section[data-testid="stSidebar"] button[kind="secondary"]:hover {
+    background-color: #f0f0f0 !important;
+    color: #000000 !important;
+}
+
+/* Active button (primary) */
+section[data-testid="stSidebar"] button[kind="primary"] {
+    background-color: #dbeafe !important; /* Tailwind blue-100 */
+    color: #000000 !important;
+    border: none !important;
+    text-align: left !important;
+    font-size: 50px !important; /* Increased font size */
+    padding-left: 20px !important;
+    justify-content: flex-start !important;
+    border-radius: 15px !important; /* Curved borders */
+    margin-bottom: 5px !important;
+}
+section[data-testid="stSidebar"] button[kind="primary"]:hover {
+    background-color: #dbeafe !important;
+    color: #000000 !important;
+}
+
+/* Admin Profile Section Styling */
+.admin-profile {
+    display: flex;
+    align-items: center;
+    padding: 15px;  
+    border-radius: 15px;
+    margin-top: 20px;
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 12rem;
+    z-index: 100;
+}

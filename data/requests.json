@@ -1,0 +1,66 @@
+[
+    {
+        "id": 1,
+        "user": "Alice Johnson",
+        "bin_id": 3,
+        "request_type": "Maintain",
+        "status": "pending",
+        "time": "2025-11-24T15:49:00.699652"
+    },
+    {
+        "id": 3,
+        "user": "Alice Johnson",
+        "bin_id": 1,
+        "request_type": "Collect",
+        "status": "pending",
+        "time": "2025-11-24T15:54:56.566902"
+    },
+    {
+        "id": 5,
+        "user": "Bob Smith",
+        "bin_id": 1,
+        "request_type": "Collect",
+        "status": "pending",
+        "time": "2025-11-24T22:08:06.838849"
+    },
+    {
+        "id": 7,
+        "user": "Bob Smith",
+        "bin_id": 1,
+        "request_type": "Collect",
+        "status": "pending",
+        "time": "2025-11-24T22:19:26.262495"
+    },
+    {
+        "id": 9,
+        "user": "Bob Smith",
+        "bin_id": 1,
+        "request_type": "Collect",
+        "status": "pending",
+        "time": "2025-11-24T22:27:31.990184"
+    },
+    {
+        "id": 10,
+        "user": "Bob Smith",
+        "bin_id": 1,
+        "request_type": "Collect",
+        "status": "pending",
+        "time": "2025-11-24T22:29:38.328226"
+    },
+    {
+        "id": 11,
+        "user": "Bob Smith",
+        "bin_id": 1,
+        "request_type": "Collect",
+        "status": "pending",
+        "time": "2025-11-24T22:30:50.402816"
+    },
+    {
+        "id": 12,
+        "user": "Alice Johnson",
+        "bin_id": 1,
+        "request_type": "Collect",
+        "status": "pending",
+        "time": "2025-12-01T12:27:47.701487"
+    }
+]

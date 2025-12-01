@@ -1,0 +1,380 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{caption}
+
+\geometry{margin=1in}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
+\title{\textbf{GreenBin: Smart Waste Management System \\ \large Technical Documentation}}
+\author{Development Team}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\begin{abstract}
+GreenBin is a comprehensive software solution designed to modernize urban waste management. By leveraging data structures and algorithmic efficiency, the system optimizes the collection process, monitors bin fill levels in real-time, and quantifies the environmental impact of efficient routing. This document details the system architecture, the implementation of custom data structures (Linked Lists, Stacks, Queues), the mathematical models used for distance calculation (Haversine formula), and provides a complete guide for deployment and usage.
+\end{abstract}
+
+\newpage
+\tableofcontents
+\newpage
+
+\section{Introduction}
+\subsection{Background}
+Rapid urbanization has led to increased waste generation, challenging traditional waste management systems. Inefficient collection routes lead to overflowing bins, increased fuel consumption, and higher operational costs. GreenBin addresses these challenges by providing a digital twin of the waste management infrastructure.
+
+\subsection{Objectives}
+The primary objectives of the GreenBin system are:
+\begin{itemize}
+    \item \textbf{Real-time Monitoring}: To provide a dashboard for monitoring bin status (fill levels, location, type).
+    \item \textbf{Optimized Collection}: To prioritize waste collection based on fill levels and location.
+    \item \textbf{Operational Safety}: To implement a robust undo/redo mechanism for all critical actions.
+    \item \textbf{Environmental Impact}: To calculate and visualize the reduction in CO2 emissions achieved through optimized routing.
+\end{itemize}
+
+\section{System Overview}
+\subsection{Technology Stack}
+\begin{itemize}
+    \item \textbf{Language}: Python 3.12+
+    \item \textbf{Frontend Framework}: Streamlit (for rapid, interactive dashboard development)
+    \item \textbf{Data Visualization}: Plotly Express (for interactive charts and maps)
+    \item \textbf{Data Storage}: JSON (File-based persistence for portability)
+\end{itemize}
+
+\subsection{File Structure}
+The project is organized as follows:
+\begin{verbatim}
+GreenBin/
+├── app.py                  # Main entry point
+├── data/                   # JSON data storage
+│   ├── bins.json
+│   ├── requests.json
+│   └── history.json
+├── data_structures/        # Custom DSA implementations
+│   ├── linked_list.py
+│   ├── stack.py
+│   └── queue.py
+├── models/                 # Data models (Bin, Request)
+├── services/               # Business logic services
+│   ├── bin_service.py
+│   ├── request_service.py
+│   └── reporting_service.py
+├── views/                  # Streamlit UI pages
+│   ├── home_page.py
+│   ├── bins_page.py
+│   └── dispatch_page.py
+└── utils/                  # Helper functions
+\end{verbatim}
+
+\subsection{Architecture}
+The application follows a Service-Oriented Architecture (SOA) pattern within a monolithic codebase:
+\begin{enumerate}
+    \item \textbf{Presentation Layer}: \texttt{views/} directory containing Streamlit pages.
+    \item \textbf{Service Layer}: \texttt{services/} directory containing business logic.
+    \item \textbf{Data Access Layer}: Direct file I/O operations on \texttt{data/} JSON files.
+    \item \textbf{Model Layer}: \texttt{models/} directory defining data objects.
+\end{enumerate}
+
+\section{Data Structures and Algorithms}
+A core requirement of GreenBin is the implementation of custom data structures to handle data efficiently without relying solely on built-in Python lists.
+
+\subsection{Linked List (Bin Storage)}
+\textbf{Usage}: The \texttt{BinService} uses a Singly Linked List to store \texttt{Bin} objects.
+\textbf{Rationale}: 
+\begin{itemize}
+    \item Dynamic size: Bins can be added or removed without reallocating a contiguous block of memory.
+    \item Insertion/Deletion: Adding a bin is $O(1)$ (appending to tail with tail pointer) or $O(n)$ (without). Our implementation traverses to the end.
+\end{itemize}
+
+\begin{lstlisting}[language=Python, caption=Linked List Implementation]
+class LinkedList:
+    def __init__(self):
+        self.head = None
+        self.size = 0
+
+    def append(self, data):
+        new_node = Node(data)
+        if not self.head:
+            self.head = new_node
+        else:
+            curr = self.head
+            while curr.next:
+                curr = curr.next
+            curr.next = new_node
+        self.size += 1
+
+    def remove(self, condition_fn):
+        """Remove first node where condition_fn(node.data) == True"""
+        curr = self.head
+        prev = None
+        while curr:
+            if condition_fn(curr.data):
+                if prev:
+                    prev.next = curr.next
+                else:
+                    self.head = curr.next
+                self.size -= 1
+                return True
+            prev = curr
+            curr = curr.next
+        return False
+\end{lstlisting}
+
+\subsection{Stack (History Management)}
+\textbf{Usage}: The \texttt{HistoryService} uses a Stack to record user actions (\texttt{add\_bin}, \texttt{process\_request}).
+\textbf{Rationale}: The Last-In-First-Out (LIFO) property is perfect for "Undo" functionality. The most recent action is the first to be reversed.
+
+\begin{lstlisting}[language=Python, caption=Stack Implementation]
+class Stack:
+    def __init__(self):
+        self.items = []
+
+    def push(self, item):
+        """Add an item to the top of the stack"""
+        self.items.append(item)
+
+    def pop(self):
+        """Remove and return the top item of the stack"""
+        if not self.is_empty():
+            return self.items.pop()
+        return None
+\end{lstlisting}
+
+\subsection{Queue (Request Processing)}
+\textbf{Usage}: The \texttt{RequestService} uses a Queue to manage incoming collection requests.
+\textbf{Rationale}: The First-In-First-Out (FIFO) property ensures fairness; requests are processed in the order they are received.
+
+\begin{lstlisting}[language=Python, caption=Queue Implementation]
+from collections import deque
+
+class Queue:
+    def __init__(self):
+        self.items = deque()
+
+    def enqueue(self, item):
+        """Add element to the back of the queue."""
+        self.items.append(item)
+
+    def dequeue(self):
+        """Remove and return the element from the front of the queue."""
+        if self.is_empty():
+            return None
+        return self.items.popleft()
+\end{lstlisting}
+
+\subsection{Haversine Algorithm (Distance Calculation)}
+To accurately calculate the distance between a bin's GPS coordinates and a facility, we use the Haversine formula. This accounts for the curvature of the Earth, providing a more accurate metric than Euclidean distance for geographic data.
+
+\[
+a = \sin^2\left(\frac{\Delta\phi}{2}\right) + \cos \phi_1 \cdot \cos \phi_2 \cdot \sin^2\left(\frac{\Delta\lambda}{2}\right)
+\]
+\[
+c = 2 \cdot \text{atan2}(\sqrt{a}, \sqrt{1-a})
+\]
+\[
+d = R \cdot c
+\]
+Where $\phi$ is latitude, $\lambda$ is longitude, and $R$ is the Earth's radius (6371 km).
+
+\begin{lstlisting}[language=Python, caption=Haversine Implementation]
+def _haversine_distance(self, lat1, lon1, lat2, lon2):
+    import math
+    # Convert decimal degrees to radians 
+    lon1, lat1, lon2, lat2 = map(math.radians, [lon1, lat1, lon2, lat2])
+
+    # Haversine formula 
+    dlon = lon2 - lon1 
+    dlat = lat2 - lat1 
+    a = math.sin(dlat/2)**2 + math.cos(lat1) * math.cos(lat2) * math.sin(dlon/2)**2
+    c = 2 * math.asin(math.sqrt(a)) 
+    r = 6371 # Radius of earth in kilometers
+    return c * r
+\end{lstlisting}
+
+\section{Services}
+\subsection{BinService}
+Manages the lifecycle of waste bins.
+\begin{itemize}
+    \item \textbf{add\_bin}: Creates a new bin and appends it to the linked list.
+    \item \textbf{update\_bin}: Modifies the fill level of an existing bin.
+    \item \textbf{remove\_bin}: Deletes a bin from the linked list.
+    \item \textbf{undo\_last}: Reverts the last bin-related action using the history stack.
+\end{itemize}
+
+\subsection{RequestService}
+Manages waste collection requests.
+\begin{itemize}
+    \item \textbf{add\_request}: Enqueues a new collection request.
+    \item \textbf{process\_request}: Dequeues a request, marks it as processed, and logs it to history with enriched bin data.
+    \item \textbf{undo\_last}: Reverts the last request action (e.g., puts a processed request back into the queue).
+\end{itemize}
+
+\subsection{ReportService}
+Generates analytics and reports.
+\begin{itemize}
+    \item \textbf{co2\_saved\_per\_facility}: Iterates through processed requests history, calculates the distance saved using Haversine, and aggregates CO2 savings per facility.
+\end{itemize}
+
+\section{UML Diagrams}
+\subsection{Class Diagram}
+The class diagram highlights the relationships between the core entities.
+
+\begin{lstlisting}[language=java, caption=Class Diagram (Mermaid)]
+classDiagram
+    class Bin {
+        +int id
+        +String location
+        +float x (Latitude)
+        +float y (Longitude)
+        +float fill_level
+        +String bin_type
+    }
+
+    class Request {
+        +int id
+        +String user
+        +int bin_id
+        +String request_type
+        +String status
+        +DateTime time
+    }
+
+    class BinService {
+        +LinkedList bins
+        +HistoryService history
+        +add_bin()
+        +update_bin()
+        +remove_bin()
+        +undo_last()
+    }
+
+    class RequestService {
+        +Queue queue
+        +HistoryService history
+        +add_request()
+        +process_request()
+        +undo_last()
+    }
+
+    class ReportService {
+        +co2_saved_per_facility()
+        +total_requests()
+    }
+
+    BinService --> Bin : manages
+    RequestService --> Request : manages
+    ReportService --> BinService : reads
+    ReportService --> RequestService : reads
+    BinService ..> HistoryService : logs to
+    RequestService ..> HistoryService : logs to
+\end{lstlisting}
+
+\subsection{Sequence Diagram: Request Processing}
+This diagram illustrates the control flow when an admin processes a request.
+
+\begin{lstlisting}[language=java, caption=Sequence Diagram (Mermaid)]
+sequenceDiagram
+    participant Admin
+    participant RequestService
+    participant BinService
+    participant HistoryService
+    participant Database
+
+    Admin->>RequestService: process_request(id)
+    activate RequestService
+    RequestService->>RequestService: Find request in Queue
+    RequestService->>BinService: get_bin_by_id(bin_id)
+    activate BinService
+    BinService-->>RequestService: Bin Object (Location, Type)
+    deactivate BinService
+    
+    RequestService->>RequestService: Enrich data with Bin details
+    RequestService->>RequestService: Remove from Queue
+    
+    RequestService->>Database: save_requests()
+    RequestService->>HistoryService: push_action("process_request", enriched_data)
+    activate HistoryService
+    HistoryService->>Database: save_history()
+    deactivate HistoryService
+    
+    RequestService-->>Admin: Returns True (Success)
+    deactivate RequestService
+\end{lstlisting}
+
+\section{Installation and Usage}
+\subsection{Prerequisites}
+\begin{itemize}
+    \item Python 3.8 or higher
+    \item pip (Python Package Installer)
+\end{itemize}
+
+\subsection{Setup Instructions}
+\begin{enumerate}
+    \item \textbf{Clone the repository} (or extract the project files).
+    \item \textbf{Create a virtual environment} (optional but recommended):
+    \begin{verbatim}
+    python3 -m venv venv
+    source venv/bin/activate  # On Windows: venv\Scripts\activate
+    \end{verbatim}
+    \item \textbf{Install dependencies}:
+    \begin{verbatim}
+    pip install streamlit pandas plotly
+    \end{verbatim}
+\end{enumerate}
+
+\subsection{Running the Application}
+To start the dashboard, navigate to the project root and run:
+\begin{verbatim}
+streamlit run app.py
+\end{verbatim}
+The application will open in your default web browser at \texttt{http://localhost:8501}.
+
+\subsection{User Guide}
+\begin{itemize}
+    \item \textbf{Adding Bins}: Navigate to the "Bins" page, select the "Add Bin" tab. Enter the Location name, precise Latitude (X) and Longitude (Y), and select the type.
+    \item \textbf{Processing Requests}: Go to the "Requests" page. Pending requests are listed. Click "Process" to dispatch a collection. This calculates the CO2 savings based on the bin's location.
+    \item \textbf{Undoing Actions}: On the "Bins" or "Requests" page, click the "Undo Last Action" button to revert the most recent change.
+    \item \textbf{Viewing Reports}: The "Home" page displays the CO2 savings distribution and overflow predictions.
+\end{itemize}
+
+\section{Future Enhancements}
+\begin{itemize}
+    \item \textbf{Database Integration}: Migrate from JSON files to a relational database (PostgreSQL) for better scalability.
+    \item \textbf{Authentication}: Implement user login and role-based access control (RBAC).
+    \item \textbf{IoT Integration}: Connect to real IoT sensors on bins for automated fill-level updates.
+\end{itemize}
+
+\end{document}

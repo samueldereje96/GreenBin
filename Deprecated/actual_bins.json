@@ -1,0 +1,47 @@
+[
+    {
+        "id": 1,
+        "location": "Downtown Dubai",
+        "bin_type": "household",
+        "capacity": 100,
+        "fill_level": 0,
+        "x": 25.1972,
+        "y": 55.2744
+    },
+    {
+        "id": 2,
+        "location": "Dubai Marina",
+        "bin_type": "industrial",
+        "capacity": 100,
+        "fill_level": 0,
+        "x": 25.0805,
+        "y": 55.1403
+    },
+    {
+        "id": 3,
+        "location": "Deira",
+        "bin_type": "recycling",
+        "capacity": 100,
+        "fill_level": 0,
+        "x": 25.2667,
+        "y": 55.3167
+    },
+    {
+        "id": 4,
+        "location": "Jumeirah",
+        "bin_type": "household",
+        "capacity": 100,
+        "fill_level": 0,
+        "x": 25.22,
+        "y": 55.24
+    },
+    {
+        "id": 5,
+        "location": "Al Barsha",
+        "bin_type": "industrial",
+        "capacity": 100,
+        "fill_level": 0,
+        "x": 25.11,
+        "y": 55.2
+    }
+]

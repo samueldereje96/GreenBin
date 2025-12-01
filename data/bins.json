@@ -1,0 +1,200 @@
+[
+    {
+        "id": 1,
+        "location": "Downtown Dubai",
+        "bin_type": "recycling",
+        "capacity": 100,
+        "fill_level": 0,
+        "x": 25.1972,
+        "y": 55.2744
+    },
+    {
+        "id": 2,
+        "location": "Business Bay",
+        "bin_type": "industrial",
+        "capacity": 100,
+        "fill_level": 0,
+        "x": 25.1837,
+        "y": 55.2666
+    },
+    {
+        "id": 3,
+        "location": "DIFC",
+        "bin_type": "recycling",
+        "capacity": 100,
+        "fill_level": 0,
+        "x": 25.2115,
+        "y": 55.2855
+    },
+    {
+        "id": 4,
+        "location": "Jumeirah",
+        "bin_type": "household",
+        "capacity": 100,
+        "fill_level": 0,
+        "x": 25.225,
+        "y": 55.25
+    },
+    {
+        "id": 5,
+        "location": "Dubai Marina",
+        "bin_type": "recycling",
+        "capacity": 120,
+        "fill_level": 0,
+        "x": 25.0803,
+        "y": 55.139
+    },
+    {
+        "id": 6,
+        "location": "Al Barsha",
+        "bin_type": "household",
+        "capacity": 80,
+        "fill_level": 0,
+        "x": 25.1121,
+        "y": 55.2057
+    },
+    {
+        "id": 7,
+        "location": "Deira",
+        "bin_type": "industrial",
+        "capacity": 150,
+        "fill_level": 0,
+        "x": 25.2712,
+        "y": 55.3075
+    },
+    {
+        "id": 8,
+        "location": "Dubai Silicon Oasis",
+        "bin_type": "household",
+        "capacity": 100,
+        "fill_level": 0,
+        "x": 25.1213,
+        "y": 55.3921
+    },
+    {
+        "id": 9,
+        "location": "Al Nahda",
+        "bin_type": "recycling",
+        "capacity": 90,
+        "fill_level": 0,
+        "x": 25.2982,
+        "y": 55.3692
+    },
+    {
+        "id": 10,
+        "location": "Karama",
+        "bin_type": "household",
+        "capacity": 70,
+        "fill_level": 0,
+        "x": 25.245,
+        "y": 55.3005
+    },
+    {
+        "id": 11,
+        "location": "Mirdif",
+        "bin_type": "recycling",
+        "capacity": 110,
+        "fill_level": 0,
+        "x": 25.2188,
+        "y": 55.4142
+    },
+    {
+        "id": 12,
+        "location": "Jebel Ali",
+        "bin_type": "industrial",
+        "capacity": 200,
+        "fill_level": 0,
+        "x": 25.0062,
+        "y": 55.0611
+    },
+    {
+        "id": 13,
+        "location": "Al Qusais",
+        "bin_type": "household",
+        "capacity": 85,
+        "fill_level": 0,
+        "x": 25.2765,
+        "y": 55.369
+    },
+    {
+        "id": 14,
+        "location": "Palm Jumeirah",
+        "bin_type": "recycling",
+        "capacity": 100,
+        "fill_level": 0,
+        "x": 25.112,
+        "y": 55.1382
+    },
+    {
+        "id": 15,
+        "location": "Al Satwa",
+        "bin_type": "household",
+        "capacity": 60,
+        "fill_level": 0,
+        "x": 25.2403,
+        "y": 55.2823
+    },
+    {
+        "id": 16,
+        "location": "Al Quoz",
+        "bin_type": "industrial",
+        "capacity": 180,
+        "fill_level": 0,
+        "x": 25.1575,
+        "y": 55.2273
+    },
+    {
+        "id": 17,
+        "location": "Emirates Hills",
+        "bin_type": "recycling",
+        "capacity": 90,
+        "fill_level": 0,
+        "x": 25.0821,
+        "y": 55.1712
+    },
+    {
+        "id": 18,
+        "location": "Al Ain Road Rest Area",
+        "bin_type": "industrial",
+        "capacity": 150,
+        "fill_level": 0,
+        "x": 24.9602,
+        "y": 55.5631
+    },
+    {
+        "id": 19,
+        "location": "Academic City",
+        "bin_type": "household",
+        "capacity": 70,
+        "fill_level": 0,
+        "x": 25.1141,
+        "y": 55.4095
+    },
+    {
+        "id": 20,
+        "location": "Al Khawaneej",
+        "bin_type": "recycling",
+        "capacity": 120,
+        "fill_level": 0,
+        "x": 25.2602,
+        "y": 55.4533
+    },
+    {
+        "id": 21,
+        "location": "X street",
+        "bin_type": "household",
+        "capacity": 100,
+        "fill_level": 0,
+        "x": 25,
+        "y": 0
+    },
+    {
+        "id": 22,
+        "location": "Yorta",
+        "bin_type": "industrial",
+        "capacity": 100,
+        "fill_level": 0,
+        "x": 25.1925,
+        "y": 55.2356
+    }
+]

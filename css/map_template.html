@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- Load Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        #map { height: 600px; width: 100%; border-radius: 10px; }
+        .legend { background: white; padding: 10px; border-radius: 5px; box-shadow: 0 0 15px rgba(0,0,0,0.2); font-family: sans-serif; font-size: 12px; }
+        .legend-item { display: flex; align-items: center; margin-bottom: 5px; }
+        .icon-box { width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; margin-right: 8px; }
+        .custom-div-icon { background: transparent; border: none; }
+        .fa-solid { text-shadow: 0 0 2px white; } 
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script>
+        // Data passed from Python
+        const bins = {{bins_json}};
+        const facilities = {{facilities_json}};
+        const vehicles = {{vehicles_json}};
+
+        // Initialize Map (Dubai)
+        const map = L.map('map').setView([25.2048, 55.2708], 11);
+
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+            subdomains: 'abcd',
+            maxZoom: 19
+        }).addTo(map);
+
+        // Helper to create icon HTML (Font Awesome)
+        function getIconHtml(name, color, size=18) {
+            return `<i class="fa-solid fa-${name}" style="color: ${color}; font-size: ${size}px;"></i>`;
+        }
+
+        // Add Legend
+        const legend = L.control({position: 'topright'});
+        legend.onAdd = function (map) {
+            const div = L.DomUtil.create('div', 'legend');
+            div.innerHTML = `
+                <div style="font-weight: bold; margin-bottom: 5px;">Facilities</div>
+                <div class="legend-item"><div class="icon-box">${getIconHtml('house', '#27ae60')}</div> Household Facility</div>
+                <div class="legend-item"><div class="icon-box">${getIconHtml('industry', '#d35400')}</div> Industrial Facility</div>
+                <div class="legend-item"><div class="icon-box">${getIconHtml('recycle', '#2980b9')}</div> Recycling Center</div>
+                <hr>
+                <div style="font-weight: bold; margin-bottom: 5px;">Bins</div>
+                <div class="legend-item"><div class="icon-box">${getIconHtml('trash-can', 'green')}</div> Normal Bin</div>
+                <div class="legend-item"><div class="icon-box">${getIconHtml('triangle-exclamation', 'red')}</div> Critical Bin (>80%)</div>
+                <hr>
+                <div class="legend-item"><div class="icon-box">${getIconHtml('truck', 'orange')}</div> Vehicle</div>
+                
+                <div style="margin-top:10px;"><button onclick="startAnimation()" style="width:100%; padding:5px; cursor:pointer; border-radius:8px; background-color:#27ae60; color:white;">▶ Replay Animation</button></div>
+            `;
+            return div;
+        };
+        legend.addTo(map);
+
+        // Add Facilities
+        facilities.forEach(f => {
+            let iconName = 'building';
+            let color = 'gray';
+            
+            if (f.type.toLowerCase() === 'recycling') { 
+                iconName = 'recycle'; 
+                color = '#2980b9'; // Blue
+            } else if (f.type.toLowerCase() === 'industrial') { 
+                iconName = 'industry'; 
+                color = '#d35400'; // Orange
+            } else if (f.type.toLowerCase() === 'household') { 
+                iconName = 'house'; 
+                color = '#27ae60'; // Green
+            }
+            
+            const iconHtml = getIconHtml(iconName, color, 20);
+            
+            const icon = L.divIcon({
+                html: `<div style="background:white; border-radius:50%; padding:4px; box-shadow:0 0 5px rgba(0,0,0,0.3); display:flex; align-items:center; justify-content:center; width:30px; height:30px;">${iconHtml}</div>`,
+                className: 'custom-div-icon',
+                iconSize: [30, 30],
+                iconAnchor: [15, 15]
+            });
+
+            L.marker([f.lat, f.lon], {icon: icon})
+             .bindPopup(`<b>${f.name}</b><br>Type: ${f.type}`).addTo(map);
+        });
+
+        // Add Bins
+        bins.forEach(b => {
+            let color = "green";
+            let iconName = "trash-can";
+            
+            // Critical Override
+            if (b.is_critical) {
+                color = "red";
+                iconName = "triangle-exclamation";
+            }
+            
+            const iconHtml = getIconHtml(iconName, color, 16);
+            
+            const icon = L.divIcon({
+                html: `<div style="background:white; border-radius:50%; padding:3px; box-shadow:0 0 3px rgba(0,0,0,0.2); display:flex; align-items:center; justify-content:center; width:24px; height:24px;">${iconHtml}</div>`,
+                className: 'custom-div-icon',
+                iconSize: [24, 24],
+                iconAnchor: [12, 12]
+            });
+
+            L.marker([b.lat, b.lon], {icon: icon})
+             .bindPopup(`<b>Bin #${b.id}</b><br>Type: ${b.type}<br>Fill: ${b.fill}%`).addTo(map);
+        });
+
+        // Vehicles and Animation
+        const vehicleMarkers = [];
+
+        vehicles.forEach(v => {
+            // Draw Route if exists
+            if (v.route && v.route.length > 0) {
+                L.polyline(v.route, {color: 'orange', weight: 3, dashArray: '5, 10', opacity: 0.7}).addTo(map);
+            }
+
+            // Create Marker
+            const iconHtml = getIconHtml('truck', 'orange', 16);
+            const icon = L.divIcon({
+                html: `<div style="background:white; border-radius:50%; padding:3px; box-shadow:0 0 3px rgba(0,0,0,0.2); display:flex; align-items:center; justify-content:center; width:26px; height:26px;">${iconHtml}</div>`,
+                className: 'custom-div-icon',
+                iconSize: [26, 26],
+                iconAnchor: [13, 13]
+            });
+
+            const marker = L.marker([v.lat, v.lon], {icon: icon})
+             .bindPopup(`<b>Vehicle #${v.id}</b>`).addTo(map);
+            
+            vehicleMarkers.push({marker: marker, route: v.route, id: v.id});
+        });
+
+        // Animation Logic
+        function startAnimation() {
+            vehicleMarkers.forEach(vm => {
+                if (vm.route && vm.route.length > 0) {
+                    animateMarker(vm.marker, vm.route);
+                }
+            });
+        }
+
+        function animateMarker(marker, route) {
+            let startTime = null;
+            const duration = 5000; // 5 seconds for full path
+            
+            function step(timestamp) {
+                if (!startTime) startTime = timestamp;
+                const progress = (timestamp - startTime) / duration;
+                
+                if (progress < 1) {
+                    // Calculate current position
+                    const totalPoints = route.length;
+                    const floatIdx = progress * (totalPoints - 1);
+                    const idx = Math.floor(floatIdx);
+                    const nextIdx = Math.min(idx + 1, totalPoints - 1);
+                    const subProgress = floatIdx - idx;
+                    
+                    const p1 = route[idx];
+                    const p2 = route[nextIdx];
+                    
+                    const lat = p1[0] + (p2[0] - p1[0]) * subProgress;
+                    const lon = p1[1] + (p2[1] - p1[1]) * subProgress;
+                    
+                    marker.setLatLng([lat, lon]);
+                    requestAnimationFrame(step);
+                } else {
+                    marker.setLatLng(route[route.length - 1]);
+                }
+            }
+            
+            requestAnimationFrame(step);
+        }
+
+        // Auto-start animation if there are active routes
+        if (vehicles.some(v => v.route && v.route.length > 0)) {
+            setTimeout(startAnimation, 1000);
+        }
+
+    </script>
+</body>
+</html>

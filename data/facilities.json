@@ -1,0 +1,202 @@
+[
+    {
+        "id": 1,
+        "name": "Dubai Recycling Center",
+        "location": "Industrial Area",
+        "x": 25.15,
+        "y": 55.25,
+        "type": "recycling",
+        "capacity": 1000,
+        "efficiency": 90
+    },
+    {
+        "id": 2,
+        "name": "Jebel Ali Waste Plant",
+        "location": "Jebel Ali",
+        "x": 25.0,
+        "y": 55.08,
+        "type": "industrial",
+        "capacity": 2000,
+        "efficiency": 85
+    },
+    {
+        "id": 3,
+        "name": "Rashidiya Sorting",
+        "location": "Rashidiya",
+        "x": 25.23,
+        "y": 55.38,
+        "type": "household",
+        "capacity": 800,
+        "efficiency": 88
+    },
+    {
+        "id": 4,
+        "name": "Al Barsha Recycling Hub",
+        "location": "Al Barsha",
+        "x": 25.11,
+        "y": 55.2,
+        "type": "recycling",
+        "capacity": 900,
+        "efficiency": 92
+    },
+    {
+        "id": 5,
+        "name": "Deira Industrial Station",
+        "location": "Deira",
+        "x": 25.27,
+        "y": 55.31,
+        "type": "industrial",
+        "capacity": 1500,
+        "efficiency": 80
+    },
+    {
+        "id": 6,
+        "name": "Satwa Household Depot",
+        "location": "Satwa",
+        "x": 25.22,
+        "y": 55.27,
+        "type": "household",
+        "capacity": 600,
+        "efficiency": 85
+    },
+    {
+        "id": 7,
+        "name": "Marina Waste Center",
+        "location": "Dubai Marina",
+        "x": 25.08,
+        "y": 55.14,
+        "type": "household",
+        "capacity": 750,
+        "efficiency": 89
+    },
+    {
+        "id": 8,
+        "name": "Silicon Oasis Tech Recycler",
+        "location": "Silicon Oasis",
+        "x": 25.12,
+        "y": 55.38,
+        "type": "recycling",
+        "capacity": 500,
+        "efficiency": 95
+    },
+    {
+        "id": 9,
+        "name": "Mirdif Collection Point",
+        "location": "Mirdif",
+        "x": 25.22,
+        "y": 55.4,
+        "type": "household",
+        "capacity": 700,
+        "efficiency": 87
+    },
+    {
+        "id": 10,
+        "name": "Int'l City Industrial Zone",
+        "location": "International City",
+        "x": 25.16,
+        "y": 55.41,
+        "type": "industrial",
+        "capacity": 1800,
+        "efficiency": 82
+    },
+    {
+        "id": 11,
+        "name": "Palm Jumeirah Green Hub",
+        "location": "Palm Jumeirah",
+        "x": 25.11,
+        "y": 55.13,
+        "type": "recycling",
+        "capacity": 400,
+        "efficiency": 94
+    },
+    {
+        "id": 12,
+        "name": "Business Bay Central",
+        "location": "Business Bay",
+        "x": 25.18,
+        "y": 55.27,
+        "type": "household",
+        "capacity": 850,
+        "efficiency": 90
+    },
+    {
+        "id": 13,
+        "name": "Al Quoz Industrial Hub",
+        "location": "Al Quoz",
+        "x": 25.16,
+        "y": 55.23,
+        "type": "industrial",
+        "capacity": 1600,
+        "efficiency": 83
+    },
+    {
+        "id": 14,
+        "name": "Jumeirah Beach Recycling",
+        "location": "Jumeirah Beach",
+        "x": 25.22,
+        "y": 55.25,
+        "type": "recycling",
+        "capacity": 550,
+        "efficiency": 93
+    },
+    {
+        "id": 15,
+        "name": "Academic City Household Facility",
+        "location": "Academic City",
+        "x": 25.11,
+        "y": 55.41,
+        "type": "household",
+        "capacity": 650,
+        "efficiency": 86
+    },
+    {
+        "id": 16,
+        "name": "Al Ain Road Waste Processing",
+        "location": "Al Ain Road",
+        "x": 25.0,
+        "y": 55.5,
+        "type": "industrial",
+        "capacity": 1700,
+        "efficiency": 81
+    },
+    {
+        "id": 17,
+        "name": "Umm Suqeim Green Center",
+        "location": "Umm Suqeim",
+        "x": 25.19,
+        "y": 55.23,
+        "type": "recycling",
+        "capacity": 620,
+        "efficiency": 92
+    },
+    {
+        "id": 18,
+        "name": "Al Khawaneej Sorting Point",
+        "location": "Al Khawaneej",
+        "x": 25.27,
+        "y": 55.45,
+        "type": "household",
+        "capacity": 780,
+        "efficiency": 88
+    },
+    {
+        "id": 19,
+        "name": "Expo City Waste Hub",
+        "location": "Expo City",
+        "x": 25.05,
+        "y": 55.17,
+        "type": "industrial",
+        "capacity": 1900,
+        "efficiency": 84
+    },
+    {
+        "id": 20,
+        "name": "Dubai Hills Recycling Base",
+        "location": "Dubai Hills",
+        "x": 25.10,
+        "y": 55.24,
+        "type": "recycling",
+        "capacity": 700,
+        "efficiency": 91
+    }
+]
