@@ -22,19 +22,19 @@
 
 1.  **Clone the repository**:
     ```bash
-    git clone https://github.com/yourusername/greenbin.git
+    git clone https://github.com/samueldereje96/greenbin.git
     cd greenbin
     ```
 
 2.  **Create a virtual environment** (recommended):
     ```bash
-    python3 -m venv venv
-    source venv/bin/activate  # On Windows: venv\Scripts\activate
+    python3 -m venv green
+    source green/bin/activate  # On Windows: venv\Scripts\activate
     ```
 
 3.  **Install dependencies**:
     ```bash
-    pip install streamlit pandas plotly
+    pip install -r requirements.txt
     ```
 
 ## Usage
