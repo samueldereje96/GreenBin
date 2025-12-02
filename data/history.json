@@ -923,6 +923,14 @@
                 "old_level": 0,
                 "new_level": 0
             }
+        },
+        {
+            "type": "update_bin",
+            "data": {
+                "id": 22,
+                "old_level": 0,
+                "new_level": 100
+            }
         }
     ],
     "dispatch": [

@@ -193,7 +193,7 @@
         "location": "Yorta",
         "bin_type": "industrial",
         "capacity": 100,
-        "fill_level": 0,
+        "fill_level": 100,
         "x": 25.1925,
         "y": 55.2356
     }
